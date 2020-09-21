@@ -30,7 +30,7 @@ enum UserMessages
     MSG_QMD_FORCE_RECHECK_TORRENT = WM_USER + 108,
 };
 
-static inline const auto IpcSendByteArray =
+inline const auto IpcSendByteArray =
         [](const HWND hwnd, const UserMessages message, const QByteArray &byteArray)
 {
     COPYDATASTRUCT copyDataStruct;
@@ -43,24 +43,21 @@ static inline const auto IpcSendByteArray =
                   (LPARAM) (LPVOID) &copyDataStruct);
 };
 
-Q_DECL_UNUSED
-static inline const auto IpcSendString =
+inline const auto IpcSendString =
         [](const HWND hwnd, const UserMessages message, const QString &string)
 {
     return ::IpcSendByteArray(hwnd, message, string.toUtf8().constData());
 };
 
 #ifdef PROJECT_QBITTORRENT
-Q_DECL_UNUSED
-static inline const auto IpcSendInfoHash =
+inline const auto IpcSendInfoHash =
         [](const HWND hwnd, const UserMessages message, const BitTorrent::InfoHash &infoHash)
 {
     return ::IpcSendByteArray(hwnd, message, static_cast<QString>(infoHash).toUtf8().constData());
 };
 #endif
 
-Q_DECL_UNUSED
-static inline const auto IpcSendStdString =
+inline const auto IpcSendStdString =
         [](const HWND hwnd, const UserMessages message, const std::string &string)
 {
     return ::IpcSendByteArray(hwnd, message, QByteArray::fromStdString(string));
